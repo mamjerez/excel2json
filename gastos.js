@@ -21,6 +21,9 @@ function excelToJson(filePath) {
                             ];
 
                             const keyMapping = {
+                                'Org.': 'CodOrg',
+                                'Pro.': 'CodPro',
+                                'Eco.': 'CodEco',
                                 'Créditos Iniciales': 'Iniciales',
                                 'Modificaciones de Crédito': 'Modificaciones',
                                 'Créditos Totales consignados': 'Definitivas',   
@@ -49,10 +52,14 @@ function excelToJson(filePath) {
       delete row[column];
     });
 
+    // Renombra las columnas
     const newRow = {};
     Object.keys(row).forEach((key) => {
       const newKey = keyMapping[key] || key;
-      newRow[newKey] = row[key];
+      // Quita decimales y redondea
+      const value = row[key];
+      newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
+
     });
 
     return newRow;
@@ -70,6 +77,6 @@ const excelFilePath = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/
 const jsonData = excelToJson(excelFilePath);
 
 // Guarda los datos en formato JSON en un nuevo archivo
-fs.writeFileSync('C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.04.03/2023LiqGas4.json', JSON.stringify(jsonData, null, 2));
+fs.writeFileSync('C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.04.03/2023LiqGas5.json', JSON.stringify(jsonData, null, 2));
 
 console.log('Archivo JSON generado exitosamente');
