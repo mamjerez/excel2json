@@ -2,7 +2,7 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
 
-
+ 
 // Función para leer un archivo Excel y convertirlo a JSON
 function excelToJson(filePath) {
     const columnsToExclude = [
@@ -60,6 +60,9 @@ function excelToJson(filePath) {
       const value = row[key];
       newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
 
+         // Si el valor es un string numérico, conviértelo a number
+         newRow[newKey] = tryParseNumber(value);
+
     });
 
     return newRow;
@@ -78,5 +81,10 @@ const jsonData = excelToJson(excelFilePath);
 
 // Guarda los datos en formato JSON en un nuevo archivo
 fs.writeFileSync('C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.04.03/2023LiqGas5.json', JSON.stringify(jsonData, null, 2));
+
+function tryParseNumber(value) {
+    const parsedValue = parseFloat(value);
+    return isNaN(parsedValue) ? value : parsedValue;
+  }
 
 console.log('Archivo JSON generado exitosamente');
