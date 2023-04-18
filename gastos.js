@@ -60,9 +60,16 @@ function excelToJson(filePath) {
       const value = row[key];
       newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
 
-         // Si el valor es un string numérico, conviértelo a number
+          // Si el valor es un string numérico, conviértelo a number
          newRow[newKey] = tryParseNumber(value);
+  
+   
+      // Añade la nueva key "DesCap" y asigna la primera cifra del value de la key "CodEco"
+    if (newRow.hasOwnProperty('CodEco')) {
+        newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
+    }
 
+  
     });
 
     return newRow;
