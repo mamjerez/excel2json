@@ -4,13 +4,13 @@ const fs = require('fs');
 
 // Ruta del archivo Excel en tu disco
 // Previamente hay que asegurarse que la primera fila es laa cabecera de las columnas
-const excelFilePath = 'C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2019 INE-OCM.xlsx';
+const excelFilePath = 'C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2004 INE-OCM.xlsx';
 
 // Llama a la función para leer el archivo Excel y obtener los datos en formato JSON
 const jsonData = excelToJson(excelFilePath);
 
 // Guarda los datos en formato JSON en un nuevo archivo
-fs.writeFileSync('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2019 INE-OCM.json', JSON.stringify(jsonData, null, 2));
+fs.writeFileSync('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2004 INE-OCM.json', JSON.stringify(jsonData, null, 2));
 console.log('Archivo JSON generado exitosamente');
 
 // Función para leer un archivo Excel y convertirlo a JSON

@@ -6,8 +6,8 @@ const readJsonFile = (filePath) => {
   return JSON.parse(fileContent);
 };
 
-const firstJsonFile = 'D:/secciones-censales/src/assets/data/seccionesCensalesADD.json'; // Reemplaza con el nombre del archivo que contiene el primer JSON
-const secondJsonFile = 'C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/diferencias2022-2019ID.json'; // Reemplaza con el nombre del archivo que contiene el segundo JSON
+const firstJsonFile = 'D:/secciones-censales/src/assets/data/secionesCensalesUpdateCenso2004-2022.json'; // Reemplaza con el nombre del archivo que contiene el primer JSON
+const secondJsonFile = 'C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2022 INE-OCM-ID.json'; // Reemplaza con el nombre del archivo que contiene el segundo JSON
 
 const firstJson = readJsonFile(firstJsonFile);
 const secondJson = readJsonFile(secondJsonFile);
@@ -19,12 +19,12 @@ firstJson.features.forEach((feature) => {
   console.log(id,match)
 
   if (match) {
-    feature.properties.TOTAL = match.diferencia.toString();
+    feature.properties.censo2022= match.Total.toString();
   }
 });
 
 // Guardar el JSON actualizado en un nuevo archivo
-const updatedJsonFile = 'D:/secciones-censales/src/assets/data/secionesCensalesUpdateDiferencia.json'; // Reemplaza con el nombre del archivo donde deseas guardar el JSON actualizado
+const updatedJsonFile = 'D:/secciones-censales/src/assets/data/secionesCensalesUpdateCenso2004-2022.json'; // Reemplaza con el nombre del archivo donde deseas guardar el JSON actualizado
 fs.writeFileSync(updatedJsonFile, JSON.stringify(firstJson, null, 2), 'utf-8');
 
 console.log(`Archivo actualizado guardado en ${updatedJsonFile}`);

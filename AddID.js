@@ -2,7 +2,7 @@ const { log } = require('console');
 const fs = require('fs');
 
 // Leer el archivo JSON inicial
-fs.readFile('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/diferencias2022-2019.json', 'utf8', (err, jsonString) => {
+fs.readFile('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2022 INE-OCM.json', 'utf8', (err, jsonString) => {
   if (err) {
     console.log("Error al leer el archivo:", err);
     return;
@@ -27,7 +27,7 @@ fs.readFile('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion pob
   console.log(updatedJsonString)
 
   // Guardar el resultado en un nuevo archivo JSON
-  fs.writeFile('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/diferencias2022-2019ID.json', updatedJsonString, (err) => {
+  fs.writeFile('C:/Users/Usuario/OneDrive/OCM/Informes OCM/2023.04.19 Evolucion poblacion secciones censales/2022 INE-OCM-ID.json', updatedJsonString, (err) => {
     if (err) {
       console.log("Error al guardar el archivo:", err);
       return;
