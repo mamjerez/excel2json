@@ -3,8 +3,14 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // Ruta del archivo Excel en disco
-const path = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
-const excelFilePath = path + 'Estado_Ejecucion_Ingresos_2023_por_aplicaciones_a_05-06-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2023_por_aplicaciones_a_05-06-2023.xls';
+
+// D:\presupuestos\src\assets\data
+const pathDataJson = 'D:/presupuestos/src/assets/data/';
+const ingresosEconomicaCapitulos = require(pathDataJson + 'ingresosEconomicaCapitulos.json');
+const ingresosEconomicaEconomicos = require(pathDataJson + 'ingresosEconomicaEconomicos.json');
+
 
 const jsonData = excelToJson(excelFilePath);
 
@@ -66,6 +72,10 @@ function excelToJson(filePath) {
       // Añade la nueva key "DesCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
         newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
+        const capitulo = ingresosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
+        newRow['DesCap'] = capitulo ? capitulo.descripcion : '';
+        const economico = ingresosEconomicaEconomicos.find((eco) => eco.codigo === newRow['CodEco']);
+        newRow['DesEco'] = economico ? economico.descripcion : '';
       }
     });
 
@@ -79,7 +89,7 @@ function excelToJson(filePath) {
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = path + '2023LiqIng.json';
+pathJson = pathExcel + '2023LiqIng.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {
