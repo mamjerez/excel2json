@@ -4,39 +4,31 @@ const fs = require('fs');
 
 // Ruta del archivo Excel en disco
 const path = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
-const excelFilePath = path + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_05-06-2023.xls';
+const excelFilePath = path + 'Estado_Ejecucion_Ingresos_2023_por_aplicaciones_a_05-06-2023.xls';
 
 const jsonData = excelToJson(excelFilePath);
 
 // Función para leer un archivo Excel y convertirlo a JSON
 function excelToJson(filePath) {
   const columnsToExclude = [
-    'C.Gestor',
-    'Saldo de Créditos Retenidos pdtes de utilización',
-    'Saldo de Créditos Retenidos para Trans.',
-    'Saldo de Acuerd. Créd. para No Disponibil.',
-    'Saldo de Gastos Autorizados',
-    'Saldo de Pagos Ordenados',
-    'Pagos Realizados',
-    'Saldo de Créditos disponibles',
-    'Saldo de Créditos disp. a nivel de Vinculación',
     '% de Realizacion del Presupuesto',
-    'Facturas consumen disp. Pend. Contabilizar',
-    'Gastado en Fase Definitiva'
+    '% Rec/Der'   
   ];
 
   const keyMapping = {
-    'Org.': 'CodOrg',
-    'Pro.': 'CodPro',
     'Eco.': 'CodEco',
-    'Créditos Iniciales': 'Iniciales',
-    'Modificaciones de Crédito': 'Modificaciones',
-    'Créditos Totales consignados': 'Definitivas',
-    'Saldo de Gastos Compromet.': 'GastosComprometidos',
-    'Saldo de Obligaciones Reconocidas': 'ObligacionesReconocidasNetas',
-    'Total gastado': 'Pagos',
-    'Saldo de Crédito Disponible Real': 'RemanenteCredito',
-    'Gasto Pendiente Aplicar a Presupuesto': 'ObligacionesPendientePago'
+    'Descripción': 'DescripcionAyto',
+    'Previsiones Iniciales': 'Iniciales',
+    'Total Modificaciones': 'Modificaciones',
+    'Previsiones totales': 'Definitivas',
+    'Derechos Reconocidos Netos': 'DerechosReconocidosNetos',
+    'Derechos Recaudados': 'DerechosReconocidos',
+    'Devoluciones de ingreso': 'DerechosCancelados',
+    'Recaudación Líquida': 'RecaudacionNeta',
+    'Derechos Pendientes de Cobro': 'DerechosPendienteCobro',
+    'Estado de Ejecución': 'DiferenciaPrevision',
+
+
   };
 
   // Lee el archivo Excel
@@ -87,14 +79,14 @@ function excelToJson(filePath) {
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = path + '2023LiqGas.json';
+pathJson = path + '2023LiqIng.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {
-  if (err) {
-    console.error("Hubo un error al intentar borrar el archivo: ", err);
-    return;
-  }
+  // if (err) {
+  //   console.error("Hubo un error al intentar borrar el archivo: ", err);
+  //   return;
+  // }
   // Grabar el nuevo archivo
   fs.writeFileSync(pathJson, JSON.stringify(jsonData, null, 2));
   console.log('Archivo JSON generado exitosamente en ' + pathJson);
