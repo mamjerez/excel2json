@@ -3,8 +3,14 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // Ruta del archivo Excel en disco
-const path = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
-const excelFilePath = path + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_05-06-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_05-06-2023.xls';
+
+const pathDataJson = 'D:/presupuestos/src/assets/data/';
+const gastosEconomicaCapitulos = require(pathDataJson + 'gastosEconomicaCapitulos.json');
+const gastosOrganicaOrganicos = require(pathDataJson + 'gastosOrganicaOrganicos.json');
+const gastosProgramaProgramas = require(pathDataJson + 'gastosProgramaProgramas.json');
+const gastosEconomicaEconomicos = require(pathDataJson + 'gastosEconomicaEconomicos.json');
 
 const jsonData = excelToJson(excelFilePath);
 
@@ -74,6 +80,22 @@ function excelToJson(filePath) {
       // Añade la nueva key "DesCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
         newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
+
+         // Añade descripcion de capítulos
+         const capitulo = gastosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
+         newRow['DesCap'] = capitulo ? capitulo.descripcion : '';
+
+        // Añade descripcion de organicos
+        const organico = gastosOrganicaOrganicos.find((org) => org.codigo === newRow['CodOrg']);
+        newRow['DesOrg'] = organico ? organico.descripcion : '';
+
+         // Añade descripcion de programas
+         const programa = gastosProgramaProgramas.find((pro) => pro.codigo === newRow['CodPro']);
+         newRow['DesPro'] = programa ? programa.descripcion : '';
+
+        // Añade descripcion de económicos
+        const economico = gastosEconomicaEconomicos.find((eco) => eco.CodEco === newRow['CodEco']);
+        newRow['DesEco'] = economico ? economico.DesEco : '';
       }
     });
 
@@ -87,7 +109,7 @@ function excelToJson(filePath) {
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = path + '2023LiqGas.json';
+pathJson = pathExcel + '2023LiqGas.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {
