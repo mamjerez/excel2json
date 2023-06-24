@@ -11,7 +11,6 @@ const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const ingresosEconomicaCapitulos = require(pathDataJson + 'ingresosEconomicaCapitulos.json');
 const ingresosEconomicaEconomicos = require(pathDataJson + 'ingresosEconomicaEconomicos.json');
 
-
 const jsonData = excelToJson(excelFilePath);
 
 // Función para leer un archivo Excel y convertirlo a JSON
@@ -32,9 +31,7 @@ function excelToJson(filePath) {
     'Devoluciones de ingreso': 'DerechosCancelados',
     'Recaudación Líquida': 'RecaudacionNeta',
     'Derechos Pendientes de Cobro': 'DerechosPendienteCobro',
-    'Estado de Ejecución': 'DiferenciaPrevision',
-
-
+    'Estado de Ejecución': 'DiferenciaPrevision'
   };
 
   // Lee el archivo Excel
@@ -72,8 +69,12 @@ function excelToJson(filePath) {
       // Añade la nueva key "DesCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
         newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
+
+      // Añade descripcion de capítulos
         const capitulo = ingresosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
         newRow['DesCap'] = capitulo ? capitulo.descripcion : '';
+
+        // Añade descripcion de económicos
         const economico = ingresosEconomicaEconomicos.find((eco) => eco.codigo === newRow['CodEco']);
         newRow['DesEco'] = economico ? economico.descripcion : '';
       }
