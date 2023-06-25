@@ -46,6 +46,11 @@ function excelToJson(filePath) {
   // Convierte la hoja de cálculo a JSON
   let jsonData = XLSX.utils.sheet_to_json(sheet);
 
+   // Define el array para almacenar los elementos nuevos
+   let newCapitulos = [];
+   let newEconomicos = [];
+
+
   // Elimina las columnas excluidas
   jsonData = jsonData.map((row) => {
     columnsToExclude.forEach((column) => {
@@ -72,19 +77,47 @@ function excelToJson(filePath) {
 
       // Añade descripcion de capítulos
         const capitulo = ingresosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
-        newRow['DesCap'] = capitulo ? capitulo.descripcion : '';
+        if (capitulo) {
+          newRow['DesCap'] = capitulo.descripcion;
+        } else {
+          newRow['DesCap'] = '';
+          newCapitulos.push(newRow['CodCap']);  
+        }
 
-        // Añade descripcion de económicos
+       // Añade descripcion de económicos
         const economico = ingresosEconomicaEconomicos.find((eco) => eco.codigo === newRow['CodEco']);
-        newRow['DesEco'] = economico ? economico.descripcion : '';
+        if (economico) {
+          newRow['DesEco'] = economico.descripcion;
+        } else {
+          newRow['DesEco'] = '';
+          newEconomicos.push(newRow['CodEco']);  
+        }
+
       }
     });
 
     return newRow;
   });
 
-  jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
-  jsonData.pop(); // Remueve el último objeto (totales)
+      // Imprime capitulos nuevos
+let newCapitulosUnicos = [...new Set(newCapitulos)];
+if (newCapitulosUnicos.length > 0)  {
+  console.log("Capitulos nuevos: ", newCapitulosUnicos);
+  pathNewCapitulos = pathExcel + 'newCapitulosIngresos.json';
+  fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
+}
+
+ // Imprime economicos nuevos
+ let newEconomicosUnicos = [...new Set(newEconomicos)];
+ if (newEconomicosUnicos.length > 0)  {
+   console.log("Económicos nuevos: ", newEconomicosUnicos);
+   pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
+   fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
+ }
+
+  // jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
+  // jsonData.pop(); // Remueve el último objeto (totales)
+  jsonData = jsonData.slice(1, -1);
 
   return jsonData;
 }

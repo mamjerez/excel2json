@@ -135,7 +135,7 @@ function excelToJson(filePath) {
 let newCapitulosUnicos = [...new Set(newCapitulos)];
 if (newCapitulosUnicos.length > 0)  {
   console.log("Capitulos nuevos: ", newCapitulosUnicos);
-  pathNewCapitulos = pathExcel + 'newCapitulos.json';
+  pathNewCapitulos = pathExcel + 'newCapitulosGastos.json';
   fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
 }
 
@@ -159,12 +159,13 @@ if (newProgramasUnicos.length > 0)  {
   let newEconomicosUnicos = [...new Set(newEconomicos)];
   if (newEconomicosUnicos.length > 0)  {
     console.log("Económicos nuevos: ", newEconomicosUnicos);
-    pathNewEconomicos = pathExcel + 'newEconomicos.json';
+    pathNewEconomicos = pathExcel + 'newEconomicosGastos.json';
     fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
   }
 
-  jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
-  jsonData.pop(); // Remueve el último objeto (totales)
+  // jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
+  // jsonData.pop(); // Remueve el último objeto (totales)
+  jsonData = jsonData.slice(1, -1);
 
   return jsonData;
 }
