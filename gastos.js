@@ -3,8 +3,8 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // Ruta del archivo Excel en disco
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.06.05/pruebasNode/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_05-06-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.08.08/pruebasNode/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_08-08-2023.xls';
 
 const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const gastosEconomicaCapitulos = require(pathDataJson + 'gastosEconomicaCapitulos.json');
@@ -57,11 +57,11 @@ function excelToJson(filePath) {
   // Convierte la hoja de cálculo a JSON
   let jsonData = XLSX.utils.sheet_to_json(sheet);
 
-    // Define el array para almacenar los elementos nuevos
-    let newCapitulos = [];
-    let newOrganicos = [];
-    let newProgramas = [];
-    let newEconomicos = [];
+  // Define el array para almacenar los elementos nuevos
+  let newCapitulos = [];
+  let newOrganicos = [];
+  let newProgramas = [];
+  let newEconomicos = [];
 
 
   // Elimina las columnas excluidas
@@ -71,13 +71,14 @@ function excelToJson(filePath) {
     });
 
     const newRow = {};
-  
+
     Object.keys(row).forEach((key) => {
       // Renombra las columnas
       const newKey = keyMapping[key] || key;
       let value = row[key];
 
       // If value is numeric string convert to number
+      // el caso especial '01110' lo convierte en 1110 que es deuda pública
       if (typeof value === 'string' && !isNaN(Number(value))) {
         value = Number(value);
       }
@@ -95,7 +96,7 @@ function excelToJson(filePath) {
           newRow['DesCap'] = capitulo.descripcion;
         } else {
           newRow['DesCap'] = '';
-          newCapitulos.push(newRow['CodCap']);  
+          newCapitulos.push(newRow['CodCap']);
         }
 
         // Añade descripcion de organicos
@@ -104,7 +105,7 @@ function excelToJson(filePath) {
           newRow['DesOrg'] = organico.descripcion;
         } else {
           newRow['DesOrg'] = '';
-          newOrganicos.push(newRow['CodOrg']);  
+          newOrganicos.push(newRow['CodOrg']);
         }
 
         // Añade descripcion de programas
@@ -112,52 +113,56 @@ function excelToJson(filePath) {
         if (programa) {
           newRow['DesPro'] = programa.descripcion;
         } else {
-          newRow['DesPro'] = '';
-          newProgramas.push(newRow['CodPro']);  
+          if (newRow['CodPro'] === 1110) {
+            newRow['DesPro'] = 'Deuda pública';
+          } else {
+            newRow['DesPro'] = '';
+            newProgramas.push(newRow['CodPro']);
+          }
         }
 
         // Añade descripcion de económicos
         const economico = gastosEconomicaEconomicos.find((eco) => eco.CodEco === newRow['CodEco']);
         if (economico) {
-          newRow['DesEco'] = economico.descripcion;
+          newRow['DesEco'] = economico.DesEco;
         } else {
           newRow['DesEco'] = '';
-          newEconomicos.push(newRow['CodEco']);  
+          newEconomicos.push(newRow['CodEco']);
         }
 
       }
     });
 
-       return newRow;
+    return newRow;
   });
 
-    // Imprime capitulos nuevos
-let newCapitulosUnicos = [...new Set(newCapitulos)];
-if (newCapitulosUnicos.length > 0)  {
-  console.log("Capitulos nuevos: ", newCapitulosUnicos);
-  pathNewCapitulos = pathExcel + 'newCapitulosGastos.json';
-  fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
-}
+  // Imprime capitulos nuevos
+  let newCapitulosUnicos = [...new Set(newCapitulos)];
+  if (newCapitulosUnicos.length > 0) {
+    console.log("Capitulos nuevos: ", newCapitulosUnicos);
+    pathNewCapitulos = pathExcel + 'newCapitulosGastos.json';
+    fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
+  }
 
-    // Imprime organicos nuevos
-let newOrganicosUnicos = [...new Set(newOrganicos)];
-if (newOrganicosUnicos.length > 0)  {
-  console.log("Organicos nuevos: ", newOrganicosUnicos);
-  pathNewOrganicos = pathExcel + 'newOrganicos.json';
-  fs.writeFileSync(pathNewOrganicos, JSON.stringify(newOrganicosUnicos, null, 2));
-}
+  // Imprime organicos nuevos
+  let newOrganicosUnicos = [...new Set(newOrganicos)];
+  if (newOrganicosUnicos.length > 0) {
+    console.log("Organicos nuevos: ", newOrganicosUnicos);
+    pathNewOrganicos = pathExcel + 'newOrganicos.json';
+    fs.writeFileSync(pathNewOrganicos, JSON.stringify(newOrganicosUnicos, null, 2));
+  }
 
   // Imprime programas nuevos
-let newProgramasUnicos = [...new Set(newProgramas)];
-if (newProgramasUnicos.length > 0)  {
-  console.log("Programas nuevos: ", newProgramasUnicos);
-  pathNewProgramas = pathExcel + 'newProgramas.json';
-  fs.writeFileSync(pathNewProgramas, JSON.stringify(newProgramasUnicos, null, 2));
-}
+  let newProgramasUnicos = [...new Set(newProgramas)];
+  if (newProgramasUnicos.length > 0) {
+    console.log("Programas nuevos: ", newProgramasUnicos);
+    pathNewProgramas = pathExcel + 'newProgramas.json';
+    fs.writeFileSync(pathNewProgramas, JSON.stringify(newProgramasUnicos, null, 2));
+  }
 
   // Imprime economicos nuevos
   let newEconomicosUnicos = [...new Set(newEconomicos)];
-  if (newEconomicosUnicos.length > 0)  {
+  if (newEconomicosUnicos.length > 0) {
     console.log("Económicos nuevos: ", newEconomicosUnicos);
     pathNewEconomicos = pathExcel + 'newEconomicosGastos.json';
     fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
@@ -170,7 +175,7 @@ if (newProgramasUnicos.length > 0)  {
   return jsonData;
 }
 
- 
+
 
 // Guarda los datos en formato JSON en un nuevo archivo
 pathJson = pathExcel + '2023LiqGas.json';
@@ -178,10 +183,10 @@ pathProgramasNuevos = pathExcel + 'newProgramasUnicos.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {
-  if (err) {
-    console.error("Hubo un error al intentar borrar el archivo: ", err);
-    return;
-  }
+  // if (err) {
+  //   console.error("Hubo un error al intentar borrar el archivo: ", err);
+  //   return;
+  // }
   // Grabar el nuevo archivo
   fs.writeFileSync(pathJson, JSON.stringify(jsonData, null, 2));
   console.log('Archivo JSON generado exitosamente en ' + pathJson);
