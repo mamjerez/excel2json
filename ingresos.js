@@ -3,6 +3,8 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // Ruta del archivo Excel en disco
+// Usar path
+// https://youtu.be/yB4n_K7dZV8?t=4581
 const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.08.08/pruebasNode/';
 const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2023_por_aplicaciones_a_08-08-2023.xls';
 
