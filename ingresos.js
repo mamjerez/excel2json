@@ -12,6 +12,8 @@ const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2023_por_aplicacion
 const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const ingresosEconomicaCapitulos = require(pathDataJson + 'ingresosEconomicaCapitulos.json');
 const ingresosEconomicaEconomicos = require(pathDataJson + 'ingresosEconomicaEconomicos.json');
+const ingresosEconomicaArticulos = require(pathDataJson + 'ingresosEconomicaArticulos.json');
+const ingresosEconomicaConceptos = require(pathDataJson + 'ingresosEconomicaConceptos.json');
 
 const jsonData = excelToJson(excelFilePath);
 
@@ -19,7 +21,7 @@ const jsonData = excelToJson(excelFilePath);
 function excelToJson(filePath) {
   const columnsToExclude = [
     '% de Realizacion del Presupuesto',
-    '% Rec/Der'   
+    '% Rec/Der'
   ];
 
   const keyMapping = {
@@ -48,9 +50,11 @@ function excelToJson(filePath) {
   // Convierte la hoja de cálculo a JSON
   let jsonData = XLSX.utils.sheet_to_json(sheet);
 
-   // Define el array para almacenar los elementos nuevos
-   let newCapitulos = [];
-   let newEconomicos = [];
+  // Define el array para almacenar los elementos nuevos
+  let newCapitulos = [];
+  let newEconomicos = [];
+  let newArticulos = [];
+  let newConceptos = [];
 
 
   // Elimina las columnas excluidas
@@ -73,59 +77,102 @@ function excelToJson(filePath) {
       // Quita decimales y redondea
       newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
 
-      // Añade la nueva key "DesCap" y asigna la primera cifra del value de la key "CodEco"
+      // Añade la nueva key "CodCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
         newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
 
-      // Añade descripcion de capítulos
+        // Añade la nueva key "CodArt" y asigna ls 2 primeras cifras del value de la key "CodEco"
+        newRow['CodArt'] = parseInt(newRow['CodEco'].toString().substring(0, 2), 10);
+
+        // Añade la nueva key "CodCon" y asigna ls 2 primeras cifras del value de la key "CodEco"
+        newRow['CodCon'] = parseInt(newRow['CodEco'].toString().substring(0, 3), 10);
+
+        // Añade descripcion de capítulos
         const capitulo = ingresosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
         if (capitulo) {
           newRow['DesCap'] = capitulo.descripcion;
         } else {
           newRow['DesCap'] = '';
-          newCapitulos.push(newRow['CodCap']);  
+          newCapitulos.push(newRow['CodCap']);
         }
 
-       // Añade descripcion de económicos
+        // Añade descripcion de económicos
         const economico = ingresosEconomicaEconomicos.find((eco) => eco.codigo === newRow['CodEco']);
         if (economico) {
           newRow['DesEco'] = economico.descripcion;
         } else {
           newRow['DesEco'] = '';
-          newEconomicos.push(newRow['CodEco']);  
+          newEconomicos.push(newRow['CodEco']);
         }
+
+        // Añade descripcion de articulos
+        const articulo = ingresosEconomicaArticulos.find((art) => art.codigo === newRow['CodArt']);
+        if (articulo) {
+          newRow['DesArt'] = articulo.descripcion;
+        } else {
+          newRow['DesArt'] = '';
+          newArticulos.push(newRow['CodArt']);
+        }
+
+         // Añade descripcion de conceptos
+         const concepto = ingresosEconomicaConceptos.find((con) => con.codigo === newRow['CodCon']);
+         if (concepto) {
+           newRow['DesCon'] = concepto.descripcion;
+         } else {
+           newRow['DesCon'] = '';
+           newConceptos.push(newRow['CodCon']);
+         }
 
       }
     });
 
     return newRow;
-  });
+    });
 
-      // Imprime capitulos nuevos
-let newCapitulosUnicos = [...new Set(newCapitulos)];
-if (newCapitulosUnicos.length > 0)  {
-  console.log("Capitulos nuevos: ", newCapitulosUnicos);
-  pathNewCapitulos = pathExcel + 'newCapitulosIngresos.json';
-  fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
-}
 
- // Imprime economicos nuevos
- let newEconomicosUnicos = [...new Set(newEconomicos)];
- if (newEconomicosUnicos.length > 0)  {
-   console.log("Económicos nuevos: ", newEconomicosUnicos);
-   pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
-   fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
- }
+
+  // Imprime capitulos nuevos
+  let newCapitulosUnicos = [...new Set(newCapitulos)];
+  if (newCapitulosUnicos.length > 0) {
+    console.log("Capitulos nuevos: ", newCapitulosUnicos);
+    pathNewCapitulos = pathExcel + 'newCapitulosIngresos.json';
+    fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
+  }
+
+  // Imprime economicos nuevos
+  let newEconomicosUnicos = [...new Set(newEconomicos)];
+  if (newEconomicosUnicos.length > 0) {
+    console.log("Económicos nuevos: ", newEconomicosUnicos);
+    pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
+    fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
+  }
+
+  // Imprime articulos nuevos
+  let newArticulosUnicos = [...new Set(newArticulos)];
+  if (newArticulosUnicos.length > 0) {
+    console.log("Articulos nuevos: ", newArticulosUnicos);
+    pathNewArticulos = pathExcel + 'newArticulosIngresos.json';
+    fs.writeFileSync(pathNewArticulos, JSON.stringify(newArticulosUnicos, null, 2));
+  }
+
+   // Imprime conceptos nuevos
+   let newConceptosUnicos = [...new Set(newConceptos)];
+   if (newConceptosUnicos.length > 0) {
+     console.log("Conceptos nuevos: ", newConceptosUnicos);
+     pathNewConceptos = pathExcel + 'newConceptosUnicos.json';
+     fs.writeFileSync(pathNewConceptos, JSON.stringify(newConceptosUnicos, null, 2));
+   }
 
   // jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
   // jsonData.pop(); // Remueve el último objeto (totales)
   jsonData = jsonData.slice(1, -1);
 
-  return jsonData;
+ 
+    return jsonData;
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = pathExcel + '2023LiqIng.json';
+pathJson = pathExcel + '2023LiqIngNEW.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {
