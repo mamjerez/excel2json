@@ -129,8 +129,6 @@ function excelToJson(filePath) {
     return newRow;
     });
 
-
-
   // Imprime capitulos nuevos
   let newCapitulosUnicos = [...new Set(newCapitulos)];
   if (newCapitulosUnicos.length > 0) {
