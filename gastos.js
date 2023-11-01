@@ -3,10 +3,12 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // Ruta del archivo Excel en disco
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.08.08/pruebasNode/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_08-08-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2022/Ejecucion/2022.12.31/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2022_por_aplicaciones_a_31-12-2022.xlsx';
 
-const pathDataJson = 'D:/presupuestos/src/assets/data/';
+// const pathDataJson = 'D:/presupuestos/src/assets/data/';
+const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
+
 const gastosEconomicaCapitulos = require(pathDataJson + 'gastosEconomicaCapitulos.json');
 const gastosOrganicaOrganicos = require(pathDataJson + 'gastosOrganicaOrganicos.json');
 const gastosProgramaProgramas = require(pathDataJson + 'gastosProgramaProgramas.json');

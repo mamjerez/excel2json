@@ -5,11 +5,12 @@ const fs = require('fs');
 // Ruta del archivo Excel en disco
 // Usar path
 // https://youtu.be/yB4n_K7dZV8?t=4581
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.08.08/pruebasNode/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2023_por_aplicaciones_a_08-08-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2022/Ejecucion/2022.12.31/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2022_por_aplicaciones_a_31-12-2022.xlsx';
 
-// D:\presupuestos\src\assets\data
-const pathDataJson = 'D:/presupuestos/src/assets/data/';
+// const pathDataJson = 'D:/presupuestos/src/assets/data/';
+const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
+
 const ingresosEconomicaCapitulos = require(pathDataJson + 'ingresosEconomicaCapitulos.json');
 const ingresosEconomicaEconomicos = require(pathDataJson + 'ingresosEconomicaEconomicos.json');
 const ingresosEconomicaArticulos = require(pathDataJson + 'ingresosEconomicaArticulos.json');
@@ -76,6 +77,8 @@ function excelToJson(filePath) {
 
       // Quita decimales y redondea
       newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
+
+      
 
       // Añade la nueva key "CodCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
@@ -170,7 +173,7 @@ function excelToJson(filePath) {
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = pathExcel + '2023LiqIngNEW.json';
+pathJson = pathExcel + '2022LiqIng.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {

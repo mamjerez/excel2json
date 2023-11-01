@@ -1,7 +1,9 @@
 const fs = require('fs');
 
-const pathDataJson = 'D:/presupuestos/src/assets/data/';
-const file = '2018LiqIng';
+const pathDataJsonInitial = 'D:/presupuestos/src/assets/data/';
+const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
+
+const file = '2022LiqIng';
 
 const ingresosEconomicaArticulos = require(pathDataJson + 'ingresosEconomicaArticulos.json');
 const ingresosEconomicaConceptos = require(pathDataJson + 'ingresosEconomicaConceptos.json');
@@ -9,7 +11,7 @@ const ingresosEconomicaConceptos = require(pathDataJson + 'ingresosEconomicaConc
 addKeysToJson();
 
 function addKeysToJson() {
-    let jsonData = require(pathDataJson + file + '.json');
+    let jsonData = require(pathDataJsonInitial + file + '.json');
     let newArticulos = [];
     let newConceptos = [];
 
