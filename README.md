@@ -16,6 +16,8 @@ Linea 183 verificar año en nombre fichero
 node gastos.js
 añadir programas, economicos..... nuevos en const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
 node gastos.js
+
+Cambiar lines 3 y 4 para usar files adecuados
 node gastosFromJSON.js
 
 
