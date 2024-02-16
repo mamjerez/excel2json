@@ -173,9 +173,9 @@ function excelToJson(filePath) {
     fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
   }
 
-  // jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
-  // jsonData.pop(); // Remueve el último objeto (totales)
-  jsonData = jsonData.slice(1, -1);
+  jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
+  jsonData.pop(); // Remueve el último objeto (totales)
+  // jsonData = jsonData.slice(1, -1);
 
   return jsonData;
 }
