@@ -1,10 +1,11 @@
 // Importa las librerías necesarias
 const XLSX = require('xlsx');
 const fs = require('fs');
+const { log } = require('console');
 
 // Ruta del archivo Excel en disco
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2023/Ejecucion/2023.11.28/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2023_por_aplicaciones_a_28-11-2023.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.02.08/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2024_por_aplicaciones_a_08-02-2024.xlsx';
 
 // const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
@@ -120,6 +121,8 @@ function excelToJson(filePath) {
           } else {
             newRow['DesPro'] = '';
             newProgramas.push(newRow['CodPro']);
+
+            console.log("Programa nuevo: ", newRow);
           }
         }
 
@@ -180,7 +183,7 @@ function excelToJson(filePath) {
 
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = pathExcel + '2023LiqGas.json';
+pathJson = pathExcel + '2024LiqGas.json';
 pathProgramasNuevos = pathExcel + 'newProgramasUnicos.json';
 
 // Si el archivo existe, borra el archivo existente
