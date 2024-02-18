@@ -1,7 +1,7 @@
 const fs = require('fs');
 const pathDataJsonNecesarios = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
 const pathDataJson = 'D:/presupuestos/src/assets/data/';
-const file = '2023LiqGas';
+const file = '2024LiqGas';
 
 const loadDataNecesario = (filename) => require(`${pathDataJsonNecesarios}${filename}.json`);
 const loadData = (filename) => require(`${pathDataJson}${filename}.json`);
