@@ -4,8 +4,8 @@ const fs = require('fs');
 const { log } = require('console');
 
 // Ruta del archivo Excel en disco
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.02.08/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2024_por_aplicaciones_a_08-02-2024.xlsx';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.03.12/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2024_por_aplicaciones_a_12-03-2024.xls';
 
 // const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
