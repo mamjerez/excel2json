@@ -20,3 +20,6 @@ MOver de D:\presupuestos\src\assets\data a la nueva carpeta creada.
 
 Mover de C:\Users\Usuario\OneDrive\Ayuntamiento\Presupuestos\2024\Ejecucion\2024.03.12 NUEVA LIQUIDACIÓN
 A D:\presupuestos\src\assets\data
+
+
+COMPROBAR TOTALES ENTRE los Excel y la app
