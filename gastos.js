@@ -4,8 +4,8 @@ const fs = require('fs');
 const { log } = require('console');
 
 // Ruta del archivo Excel en disco
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.03.12/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2024_por_aplicaciones_a_12-03-2024.xls';
+const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.04.15/';
+const excelFilePath = pathExcel + 'Estado_Ejecucion_Gastos_2024_por_aplicaciones_a_15-04-2024.xls';
 
 // const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
@@ -21,17 +21,17 @@ const jsonData = excelToJson(excelFilePath);
 function excelToJson(filePath) {
   const columnsToExclude = [
     'C.Gestor',
-    'Saldo de Créditos Retenidos pdtes de utilización',
-    'Saldo de Créditos Retenidos para Trans.',
-    'Saldo de Acuerd. Créd. para No Disponibil.',
-    'Saldo de Gastos Autorizados',
-    'Saldo de Pagos Ordenados',
-    'Pagos Realizados',
+    // 'Saldo de Créditos Retenidos pdtes de utilización',
+    // 'Saldo de Créditos Retenidos para Trans.',
+    // 'Saldo de Acuerd. Créd. para No Disponibil.',
+    // 'Saldo de Gastos Autorizados',
+    // 'Saldo de Pagos Ordenados',
+    // 'Pagos Realizados',
     'Saldo de Créditos disponibles',
     'Saldo de Créditos disp. a nivel de Vinculación',
     '% de Realizacion del Presupuesto',
     'Facturas consumen disp. Pend. Contabilizar',
-    'Gastado en Fase Definitiva'
+    // 'Gastado en Fase Definitiva'
   ];
 
   const keyMapping = {
@@ -45,7 +45,15 @@ function excelToJson(filePath) {
     'Saldo de Obligaciones Reconocidas': 'ObligacionesReconocidasNetas',
     'Total gastado': 'Pagos',
     'Saldo de Crédito Disponible Real': 'RemanenteCredito',
-    'Gasto Pendiente Aplicar a Presupuesto': 'ObligacionesPendientePago'
+    'Gasto Pendiente Aplicar a Presupuesto': 'ObligacionesPendientePago',
+    'Saldo de Créditos Retenidos pdtes de utilización': 'creditosRetenidos',
+    'Saldo de Créditos Retenidos para Trans.': 'creditosRetenidosTrans',
+    'Saldo de Acuerd. Créd. para No Disponibil.' : 'creditosNoDisponibles',
+    'Saldo de Gastos Autorizados' : 'gastosAutorizados',
+    'Saldo de Pagos Ordenados' : 'pagosOrdenados',
+    'Pagos Realizados' : 'pagosRealizados',
+    'Gastado en Fase Definitiva' : 'gastadoDefinitiva'
+
   };
 
   // Lee el archivo Excel
