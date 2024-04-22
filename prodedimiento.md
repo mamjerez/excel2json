@@ -11,6 +11,8 @@ node gastos
 
 Los resultados se graban en 
 const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.03.12/';
+Mover a 'D:/presupuestos/src/assets/data/'
+!!!!!!!!!!!!!!!!!!!!!1  EJECUTAR gastosFromJSON  para añadir los campos DesGru, DesAre.......... !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
