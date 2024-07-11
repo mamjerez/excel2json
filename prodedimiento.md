@@ -16,6 +16,7 @@ Crear carpeta en E:\Copias app\Presupuestos data con la fecha actual
 Mover los dos ficheros JSON a esta carpeta
 
 Mover a 'D:/presupuestos/src/assets/data/'
+node gastosFromJSON
 !!!!!!!!!!!!!!!!!!!!!1  EJECUTAR gastosFromJSON  para añadir los campos DesGru, DesAre.......... !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
