@@ -33,5 +33,9 @@ Borrar 2024LiqGas
 Renombrar 2024LiqGasNEW a 2024LiqGas
 
 
+En la app presupuestos cambiar fecha ejecucion en environmet
+
+
+
 
 COMPROBAR TOTALES ENTRE los Excel y la app
