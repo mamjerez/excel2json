@@ -1,20 +1,19 @@
 // Importa las librerías necesarias
 const XLSX = require('xlsx');
 const fs = require('fs');
+const config = require('./config');
+const { log } = require('console');
 
-// Ruta del archivo Excel en disco
-// Usar path
-// https://youtu.be/yB4n_K7dZV8?t=4581
-const pathExcel = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/2024.08.27/';
-const excelFilePath = pathExcel + 'Estado_Ejecucion_Ingresos_2024_por_aplicaciones_a_27-08-2024.xls';
+const pathExcel = config.pathExcel;
+const nameExcel = config.nameExcelIngresos;
+const excelFilePath = pathExcel + nameExcel;
+const pathDataJsonNecesarios = config.pathDataJsonNecesarios;
+const year = config.year;
 
-// const pathDataJson = 'D:/presupuestos/src/assets/data/';
-const pathDataJson = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
-
-const ingresosEconomicaCapitulos = require(pathDataJson + 'ingresosEconomicaCapitulos.json');
-const ingresosEconomicaEconomicos = require(pathDataJson + 'ingresosEconomicaEconomicos.json');
-const ingresosEconomicaArticulos = require(pathDataJson + 'ingresosEconomicaArticulos.json');
-const ingresosEconomicaConceptos = require(pathDataJson + 'ingresosEconomicaConceptos.json');
+const ingresosEconomicaCapitulos = require(pathDataJsonNecesarios + 'ingresosEconomicaCapitulos.json');
+const ingresosEconomicaEconomicos = require(pathDataJsonNecesarios + 'ingresosEconomicaEconomicos.json');
+const ingresosEconomicaArticulos = require(pathDataJsonNecesarios + 'ingresosEconomicaArticulos.json');
+const ingresosEconomicaConceptos = require(pathDataJsonNecesarios + 'ingresosEconomicaConceptos.json');
 
 const jsonData = excelToJson(excelFilePath);
 
@@ -173,7 +172,7 @@ function excelToJson(filePath) {
 }
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = pathExcel + '2024LiqIng.json';
+pathJson = pathExcel +  year + 'LiqIng.json';
 
 // Si el archivo existe, borra el archivo existente
 fs.unlink(pathJson, (err) => {

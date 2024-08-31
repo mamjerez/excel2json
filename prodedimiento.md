@@ -1,15 +1,11 @@
-En ingresos.js
-Cambiar ruta en linea 8 y 9
-comprobar año en linea 177
+en config.js
+Cambiar nombres
 COMPROBAR EXTENSION puede ser xls o xlsx
+Comprobar año
 GRABAR
+
+
 node ingresos
-
-
-En gastos
-Cambiar ruta en linea 7 y 8
-COMPROBAR EXTENSION puede ser xls o xlsx
-GRABAR
 node gastos
 
 Los resultados se graban en 
@@ -39,3 +35,9 @@ En la app presupuestos cambiar fecha ejecucion en environmet
 
 
 COMPROBAR TOTALES ENTRE los Excel y la app
+
+
+
+
+
+Guardar los JSON de las anterior ejecucion
