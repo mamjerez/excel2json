@@ -193,7 +193,7 @@ function excelToJson(filePath) {
 
 
 // Guarda los datos en formato JSON en un nuevo archivo
-pathJson = pathExcel +  year + 'LiqGas.json';
+pathJson = pathExcel +  year + 'LiqGasiNICIAL.json';
 pathProgramasNuevos = pathExcel + 'newProgramasUnicos.json';
 
 // Si el archivo existe, borra el archivo existente

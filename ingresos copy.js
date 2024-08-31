@@ -1,12 +1,10 @@
-// file1.js
 // Importa las librerías necesarias
 const XLSX = require('xlsx');
-const fs = require('fs').promises; // Uso de fs.promises para operaciones asíncronas
+const fs = require('fs');
 const config = require('./config');
 const { log } = require('console');
 
 const pathExcel = config.pathExcel;
-const pathApp = config.pathApp;
 const nameExcel = config.nameExcelIngresos;
 const excelFilePath = pathExcel + nameExcel;
 const pathDataJsonNecesarios = config.pathDataJsonNecesarios;
@@ -17,6 +15,9 @@ const ingresosEconomicaEconomicos = require(pathDataJsonNecesarios + 'ingresosEc
 const ingresosEconomicaArticulos = require(pathDataJsonNecesarios + 'ingresosEconomicaArticulos.json');
 const ingresosEconomicaConceptos = require(pathDataJsonNecesarios + 'ingresosEconomicaConceptos.json');
 
+const jsonData = excelToJson(excelFilePath);
+
+// Función para leer un archivo Excel y convertirlo a JSON
 function excelToJson(filePath) {
   const columnsToExclude = [
     '% de Realizacion del Presupuesto',
@@ -32,7 +33,7 @@ function excelToJson(filePath) {
     'Derechos Reconocidos Netos': 'DerechosReconocidosNetos',
     'Derechos Recaudados': 'DerechosReconocidos',
     'Devoluciones de ingreso': 'DerechosCancelados',
-    'Recaudación Líquida': 'DerecaudacionNeta',
+    'Recaudación Líquida': 'RecaudacionNeta',
     'Derechos Pendientes de Cobro': 'DerechosPendienteCobro',
     'Estado de Ejecución': 'DiferenciaPrevision'
   };
@@ -55,6 +56,7 @@ function excelToJson(filePath) {
   let newArticulos = [];
   let newConceptos = [];
 
+
   // Elimina las columnas excluidas
   jsonData = jsonData.map((row) => {
     columnsToExclude.forEach((column) => {
@@ -67,7 +69,7 @@ function excelToJson(filePath) {
       const newKey = keyMapping[key] || key;
       let value = row[key];
 
-      // Si el valor es una cadena numérica, lo convierte a número
+      // If value is numeric string convert to number
       if (typeof value === 'string' && !isNaN(Number(value))) {
         value = Number(value);
       }
@@ -75,17 +77,19 @@ function excelToJson(filePath) {
       // Quita decimales y redondea
       newRow[newKey] = (typeof value === 'number') ? Math.round(value) : value;
 
-      // Añade la nueva key "CodCap" y asigna la primera cifra del valor de "CodEco"
+      
+
+      // Añade la nueva key "CodCap" y asigna la primera cifra del value de la key "CodEco"
       if (newRow.hasOwnProperty('CodEco')) {
         newRow['CodCap'] = parseInt(newRow['CodEco'].toString().charAt(0), 10);
 
-        // Añade la nueva key "CodArt" y asigna las 2 primeras cifras de "CodEco"
+        // Añade la nueva key "CodArt" y asigna ls 2 primeras cifras del value de la key "CodEco"
         newRow['CodArt'] = parseInt(newRow['CodEco'].toString().substring(0, 2), 10);
 
-        // Añade la nueva key "CodCon" y asigna las 3 primeras cifras de "CodEco"
+        // Añade la nueva key "CodCon" y asigna ls 2 primeras cifras del value de la key "CodEco"
         newRow['CodCon'] = parseInt(newRow['CodEco'].toString().substring(0, 3), 10);
 
-        // Añade descripción de capítulos
+        // Añade descripcion de capítulos
         const capitulo = ingresosEconomicaCapitulos.find((cap) => cap.codigo === newRow['CodCap']);
         if (capitulo) {
           newRow['DesCap'] = capitulo.descripcion;
@@ -94,7 +98,7 @@ function excelToJson(filePath) {
           newCapitulos.push(newRow['CodCap']);
         }
 
-        // Añade descripción de económicos
+        // Añade descripcion de económicos
         const economico = ingresosEconomicaEconomicos.find((eco) => eco.codigo === newRow['CodEco']);
         if (economico) {
           newRow['DesEco'] = economico.descripcion;
@@ -103,7 +107,7 @@ function excelToJson(filePath) {
           newEconomicos.push(newRow['CodEco']);
         }
 
-        // Añade descripción de artículos
+        // Añade descripcion de articulos
         const articulo = ingresosEconomicaArticulos.find((art) => art.codigo === newRow['CodArt']);
         if (articulo) {
           newRow['DesArt'] = articulo.descripcion;
@@ -112,93 +116,72 @@ function excelToJson(filePath) {
           newArticulos.push(newRow['CodArt']);
         }
 
-        // Añade descripción de conceptos
-        const concepto = ingresosEconomicaConceptos.find((con) => con.codigo === newRow['CodCon']);
-        if (concepto) {
-          newRow['DesCon'] = concepto.descripcion;
-        } else {
-          newRow['DesCon'] = '';
-          newConceptos.push(newRow['CodCon']);
-        }
+         // Añade descripcion de conceptos
+         const concepto = ingresosEconomicaConceptos.find((con) => con.codigo === newRow['CodCon']);
+         if (concepto) {
+           newRow['DesCon'] = concepto.descripcion;
+         } else {
+           newRow['DesCon'] = '';
+           newConceptos.push(newRow['CodCon']);
+         }
+
       }
     });
 
     return newRow;
-  });
+    });
 
-  // Imprime capítulos nuevos
+  // Imprime capitulos nuevos
   let newCapitulosUnicos = [...new Set(newCapitulos)];
   if (newCapitulosUnicos.length > 0) {
     console.log("Capitulos nuevos: ", newCapitulosUnicos);
-    const pathNewCapitulos = pathExcel + 'newCapitulosIngresos.json';
+    pathNewCapitulos = pathExcel + 'newCapitulosIngresos.json';
     fs.writeFileSync(pathNewCapitulos, JSON.stringify(newCapitulosUnicos, null, 2));
   }
 
-  // Imprime económicos nuevos
+  // Imprime economicos nuevos
   let newEconomicosUnicos = [...new Set(newEconomicos)];
   if (newEconomicosUnicos.length > 0) {
     console.log("Económicos nuevos: ", newEconomicosUnicos);
-    const pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
+    pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
     fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
   }
 
-  // Imprime artículos nuevos
+  // Imprime articulos nuevos
   let newArticulosUnicos = [...new Set(newArticulos)];
   if (newArticulosUnicos.length > 0) {
     console.log("Articulos nuevos: ", newArticulosUnicos);
-    const pathNewArticulos = pathExcel + 'newArticulosIngresos.json';
+    pathNewArticulos = pathExcel + 'newArticulosIngresos.json';
     fs.writeFileSync(pathNewArticulos, JSON.stringify(newArticulosUnicos, null, 2));
   }
 
-  // Imprime conceptos nuevos
-  let newConceptosUnicos = [...new Set(newConceptos)];
-  if (newConceptosUnicos.length > 0) {
-    console.log("Conceptos nuevos: ", newConceptosUnicos);
-    const pathNewConceptos = pathExcel + 'newConceptosUnicos.json';
-    fs.writeFileSync(pathNewConceptos, JSON.stringify(newConceptosUnicos, null, 2));
-  }
+   // Imprime conceptos nuevos
+   let newConceptosUnicos = [...new Set(newConceptos)];
+   if (newConceptosUnicos.length > 0) {
+     console.log("Conceptos nuevos: ", newConceptosUnicos);
+     pathNewConceptos = pathExcel + 'newConceptosUnicos.json';
+     fs.writeFileSync(pathNewConceptos, JSON.stringify(newConceptosUnicos, null, 2));
+   }
 
-  // Remueve el primer objeto (títulos de las columnas) y el último objeto (totales)
+  // jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
+  // jsonData.pop(); // Remueve el último objeto (totales)
   jsonData = jsonData.slice(1, -1);
 
-  return jsonData;
+ 
+    return jsonData;
 }
 
-async function main() {
-  const jsonData = excelToJson(excelFilePath);
+// Guarda los datos en formato JSON en un nuevo archivo
+pathJson = pathExcel +  year + 'LiqIng.json';
 
-  // Guarda los datos en formato JSON en un nuevo archivo
-  const pathExcelJson = pathExcel + year + 'LiqIng.json';
-  const pathAppJson = pathApp + year + 'LiqIng.json';
-
-  try {
-    // Si el archivo existe, lo elimina
-    await fs.unlink(pathExcelJson).catch(() => {}); // Ignora errores si el archivo no existe
-
-    // Graba el nuevo archivo
-    await fs.writeFile(pathExcelJson, JSON.stringify(jsonData, null, 2));
-    console.log('Archivo JSON generado exitosamente en ' + pathExcelJson);
-  } catch (error) {
-    console.error("Error durante la operación de archivo: ", error);
-  }
-
-
-  try {
-    // Si el archivo existe, lo elimina
-    await fs.unlink(pathAppJson).catch(() => {}); // Ignora errores si el archivo no existe
-
-    // Graba el nuevo archivo
-    await fs.writeFile(pathAppJson, JSON.stringify(jsonData, null, 2));
-    console.log('Archivo JSON generado exitosamente en ' + pathAppJson);
-  } catch (error) {
-    console.error("Error durante la operación de archivo: ", error);
-  }
-}
-
-
-
-
-
-main().then(() => {
-  console.log('Ingresos terminado');
+// Si el archivo existe, borra el archivo existente
+fs.unlink(pathJson, (err) => {
+  // if (err) {
+  //   console.error("Hubo un error al intentar borrar el archivo: ", err);
+  //   return;
+  // }
+  // Grabar el nuevo archivo
+  fs.writeFileSync(pathJson, JSON.stringify(jsonData, null, 2));
+  console.log('Archivo JSON generado exitosamente en ' + pathJson);
 });
+

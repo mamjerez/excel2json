@@ -1,15 +1,23 @@
 const fs = require('fs');
 const config = require('./config');
 const pathDataJsonNecesarios = config.pathDataJsonNecesarios;
+const year = config.year;
 
 
-// const pathDataJsonNecesarios = 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/';
+
 const pathDataJson = 'D:/presupuestos/src/assets/data/';
-const file = '2024LiqGas';
+const fileInicial = year + 'LiqGasINICIAL';
+const fileFinal = year + 'LiqGas';
+
+const pathApp = config.pathApp;
+const pathExcel = config.pathExcel;
 
 const loadDataNecesario = (filename) => require(`${pathDataJsonNecesarios}${filename}.json`);
-const loadData = (filename) => require(`${pathDataJson}${filename}.json`);
-const writeData = (filename, data) => fs.writeFileSync(`${pathDataJson}${filename}.json`, JSON.stringify(data, null, 2));
+const loadData = (fileInicial) => require(`${pathExcel}${fileInicial}.json`);
+const writeData = (fileFinal, data) => fs.writeFileSync(`${pathExcel}${fileFinal}.json`, JSON.stringify(data, null, 2));
+const writeDataFinal = (fileFinal, data) => fs.writeFileSync(`${pathApp}${fileFinal}.json`, JSON.stringify(data, null, 2));
+
+
 
 const gastosEconomicaArticulos = loadDataNecesario('gastosEconomicaArticulos');
 const gastosEconomicaConceptos = loadDataNecesario('gastosEconomicaConceptos');
@@ -26,7 +34,7 @@ const findDescription = (arr, code, newItems) => {
 addKeysToJson();
 
 function addKeysToJson() {
-    let jsonData = loadData(file);
+    let jsonData = loadData(fileInicial);
 
     const newAreas = [], newPoliticas = [], newGrupos = [], newArticulos = [], newConceptos = [];
 
@@ -64,11 +72,16 @@ function addKeysToJson() {
         }
     });
 
-    const newPath = `${pathDataJson}${file}NEW.json`;
+    const newPath = `${pathExcel}${fileFinal}.json`;
     if (fs.existsSync(newPath)) fs.unlinkSync(newPath);
 
-    writeData(`${file}NEW`, jsonData);
-    console.log('Archivo JSON generado exitosamente en ' + pathDataJson);
+    writeData(`${fileFinal}`, jsonData);
+    console.log('Archivo JSON generado exitosamente en ' + pathExcel);
+
+    const newPathApp = `${pathApp}${fileFinal}.json`;
+    if (fs.existsSync(newPathApp)) fs.unlinkSync(newPath);
+
+    writeDataFinal(`${fileFinal}`, jsonData);
 }
 
 
