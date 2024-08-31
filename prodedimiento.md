@@ -1,4 +1,4 @@
-en config.js
+En config.js
 Cambiar nombres
 COMPROBAR EXTENSION puede ser xls o xlsx
 Comprobar año

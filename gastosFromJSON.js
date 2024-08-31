@@ -2,13 +2,9 @@ const fs = require('fs');
 const config = require('./config');
 const pathDataJsonNecesarios = config.pathDataJsonNecesarios;
 const year = config.year;
-
-
-
-const pathDataJson = 'D:/presupuestos/src/assets/data/';
+// const pathDataJson = 'D:/presupuestos/src/assets/data/';
 const fileInicial = year + 'LiqGasINICIAL';
 const fileFinal = year + 'LiqGas';
-
 const pathApp = config.pathApp;
 const pathExcel = config.pathExcel;
 
@@ -16,8 +12,6 @@ const loadDataNecesario = (filename) => require(`${pathDataJsonNecesarios}${file
 const loadData = (fileInicial) => require(`${pathExcel}${fileInicial}.json`);
 const writeData = (fileFinal, data) => fs.writeFileSync(`${pathExcel}${fileFinal}.json`, JSON.stringify(data, null, 2));
 const writeDataFinal = (fileFinal, data) => fs.writeFileSync(`${pathApp}${fileFinal}.json`, JSON.stringify(data, null, 2));
-
-
 
 const gastosEconomicaArticulos = loadDataNecesario('gastosEconomicaArticulos');
 const gastosEconomicaConceptos = loadDataNecesario('gastosEconomicaConceptos');
@@ -72,16 +66,27 @@ function addKeysToJson() {
         }
     });
 
-    const newPath = `${pathExcel}${fileFinal}.json`;
-    if (fs.existsSync(newPath)) fs.unlinkSync(newPath);
+    try {
+        const newPath = `${pathExcel}${fileFinal}.json`;
+        if (fs.existsSync(newPath)) fs.unlinkSync(newPath);
+        writeData(`${fileFinal}`, jsonData);
+        console.log('Archivo JSON generado exitosamente en ' + pathExcel);
+    } catch (error) {
+        console.log('Error: ', error);
 
-    writeData(`${fileFinal}`, jsonData);
-    console.log('Archivo JSON generado exitosamente en ' + pathExcel);
+    }
 
-    const newPathApp = `${pathApp}${fileFinal}.json`;
-    if (fs.existsSync(newPathApp)) fs.unlinkSync(newPath);
+    try {
+        const newPathApp = `${pathApp}${fileFinal}.json`;
+        if (fs.existsSync(newPathApp)) fs.unlinkSync(newPathApp);
+        writeDataFinal(`${fileFinal}`, jsonData);
+        console.log('Archivo JSON generado exitosamente en ' + pathApp);
 
-    writeDataFinal(`${fileFinal}`, jsonData);
+    } catch (error) {
+        console.log('Error: ', error);
+
+    }
+
 }
 
 
