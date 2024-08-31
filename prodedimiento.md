@@ -1,6 +1,6 @@
 En ingresos.js
 Cambiar ruta en linea 8 y 9
-comprobar año en linea 194
+comprobar año en linea 177
 COMPROBAR EXTENSION puede ser xls o xlsx
 GRABAR
 node ingresos
