@@ -3,8 +3,6 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 const config = require('./config');
 
-const { log } = require('console');
-
 // Ruta del archivo Excel en disco
 const pathExcel = config.pathExcel;
 const nameExcel = config.nameExcelGastos;
@@ -129,10 +127,8 @@ function excelToJson(filePath) {
           if (newRow['CodPro'] === 1110) {
             newRow['DesPro'] = 'Deuda pública';
           } else {
-            newRow['DesPro'] = '';
-            newProgramas.push(newRow['CodPro']);
-
-            console.log("Programa nuevo: ", newRow);
+            newRow['DesPro'] =row['Descripción']; 
+            newProgramas.push({ CodPro: newRow['CodPro'], DesPro: row['Descripción'] });
           }
         }
 
@@ -141,8 +137,9 @@ function excelToJson(filePath) {
         if (economico) {
           newRow['DesEco'] = economico.DesEco;
         } else {
-          newRow['DesEco'] = '';
-          newEconomicos.push(newRow['CodEco']);
+          newRow['DesEco'] =  row['Descripción']; 
+          newEconomicos.push({ CodEco: newRow['CodEco'], DesEco: row['Descripción'] });
+
         }
 
       }
@@ -168,7 +165,10 @@ function excelToJson(filePath) {
   }
 
   // Imprime programas nuevos
-  let newProgramasUnicos = [...new Set(newProgramas)];
+  let newProgramasUnicos = [
+    ...new Map(newProgramas.map(item => [item.CodPrograma, item])).values()
+  ];
+
   if (newProgramasUnicos.length > 0) {
     console.log("Programas nuevos: ", newProgramasUnicos);
     pathNewProgramas = pathExcel + 'newProgramas.json';
@@ -176,13 +176,15 @@ function excelToJson(filePath) {
   }
 
   // Imprime economicos nuevos
-  let newEconomicosUnicos = [...new Set(newEconomicos)];
+  let newEconomicosUnicos = [
+    ...new Map(newEconomicos.map(item => [item.CodEco, item])).values()
+  ];
+  
   if (newEconomicosUnicos.length > 0) {
     console.log("Económicos nuevos: ", newEconomicosUnicos);
-    pathNewEconomicos = pathExcel + 'newEconomicosGastos.json';
+    const pathNewEconomicos = pathExcel + 'newEconomicosGastos.json';
     fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
   }
-
   jsonData.shift(); // Remueve el primer objeto (títulos de las columnas)
   jsonData.pop(); // Remueve el último objeto (totales)
   // jsonData = jsonData.slice(1, -1);
