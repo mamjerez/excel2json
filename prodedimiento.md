@@ -17,6 +17,6 @@ En la app presupuestos cambiar fecha ejecucion en environmet
 COMPROBAR TOTALES ENTRE los Excel y la app
 
 
-
+COMPROBAR EN TEORIA LO DEBE HACER DESDE EL INDEX
 !!!!!!!!!!!!!!!!!!!!!1  EJECUTAR gastosFromJSON  para añadir los campos DesGru, DesAre.......... !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 node gastosFromJSON
