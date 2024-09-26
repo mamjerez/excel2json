@@ -19,5 +19,4 @@ COMPROBAR TOTALES ENTRE los Excel y la app
 
 
 !!!!!!!!!!!!!!!!!!!!!1  EJECUTAR gastosFromJSON  para añadir los campos DesGru, DesAre.......... !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
+node gastosFromJSON
