@@ -195,10 +195,6 @@ async function main() {
   }
 }
 
-
-
-
-
 main().then(() => {
-  console.log('Ingresos terminado');
+  // console.log('Ingresos terminado');
 });
