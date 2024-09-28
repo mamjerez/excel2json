@@ -2,8 +2,8 @@
 // Importa las librerías necesarias
 const XLSX = require('xlsx');
 const fs = require('fs').promises; // Uso de fs.promises para operaciones asíncronas
+const chalk = require('chalk');
 const config = require('./config');
-const { log } = require('console');
 
 const pathExcel = config.pathExcel;
 const pathApp = config.pathApp;
@@ -177,7 +177,8 @@ async function main() {
 
     // Graba el nuevo archivo
     await fs.writeFile(pathExcelJson, JSON.stringify(jsonData, null, 2));
-    console.log('Archivo JSON generado exitosamente en ' + pathExcelJson);
+    // console.log('Archivo JSON generado exitosamente en ' + pathExcelJson);
+    console.log(chalk.bgGreen.bold(`Archivo ${year}LiqIng  generado exitosamente en  ${pathExcelJson}`));	
   } catch (error) {
     console.error("Error durante la operación de archivo: ", error);
   }
@@ -189,12 +190,14 @@ async function main() {
 
     // Graba el nuevo archivo
     await fs.writeFile(pathAppJson, JSON.stringify(jsonData, null, 2));
-    console.log('Archivo JSON generado exitosamente en ' + pathAppJson);
+    console.log(chalk.bgGreen.bold(`Archivo ${year}LiqIng  generado exitosamente en  ${pathApp}`));	
   } catch (error) {
     console.error("Error durante la operación de archivo: ", error);
   }
 }
 
-main().then(() => {
-  // console.log('Ingresos terminado');
-});
+main()
+
+// main().then(() => {
+//   // console.log('Ingresos terminado');
+// });
