@@ -1,8 +1,5 @@
-// file1.js
-// Importa las librerías necesarias
 const XLSX = require('xlsx');
 const fs = require('fs').promises; // Uso de fs.promises para operaciones asíncronas
-const chalk = require('chalk');
 const config = require('./config');
 
 const pathExcel = config.pathExcel;
@@ -164,36 +161,24 @@ function excelToJson(filePath) {
   return jsonData;
 }
 
+async function manejarArchivo(ruta, datos, year) {
+  try {
+    await fs.writeFile(ruta, JSON.stringify(datos, null, 2));
+    console.log(`Archivo ${year}LiqIng generado exitosamente en ${ruta}`);
+  } catch (error) {
+    console.error(`Error durante la operación de archivo en ${ruta}: `, error);
+  }
+}
+
 async function main() {
   const jsonData = excelToJson(excelFilePath);
+  const pathExcelJson = `${pathExcel}${year}LiqIng.json`;
+  const pathAppJson = `${pathApp}${year}LiqIng.json`;
 
-  // Guarda los datos en formato JSON en un nuevo archivo
-  const pathExcelJson = pathExcel + year + 'LiqIng.json';
-  const pathAppJson = pathApp + year + 'LiqIng.json';
-
-  try {
-    // Si el archivo existe, lo elimina
-    await fs.unlink(pathExcelJson).catch(() => {}); // Ignora errores si el archivo no existe
-
-    // Graba el nuevo archivo
-    await fs.writeFile(pathExcelJson, JSON.stringify(jsonData, null, 2));
-    // console.log('Archivo JSON generado exitosamente en ' + pathExcelJson);
-    console.log(chalk.bgGreen.bold(`Archivo ${year}LiqIng  generado exitosamente en  ${pathExcelJson}`));	
-  } catch (error) {
-    console.error("Error durante la operación de archivo: ", error);
-  }
-
-
-  try {
-    // Si el archivo existe, lo elimina
-    await fs.unlink(pathAppJson).catch(() => {}); // Ignora errores si el archivo no existe
-
-    // Graba el nuevo archivo
-    await fs.writeFile(pathAppJson, JSON.stringify(jsonData, null, 2));
-    console.log(chalk.bgGreen.bold(`Archivo ${year}LiqIng  generado exitosamente en  ${pathApp}`));	
-  } catch (error) {
-    console.error("Error durante la operación de archivo: ", error);
-  }
+  await Promise.all([
+    manejarArchivo(pathExcelJson, jsonData, year),
+    manejarArchivo(pathAppJson, jsonData, year)
+  ]);
 }
 
 main()

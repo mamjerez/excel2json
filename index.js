@@ -1,32 +1,33 @@
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const util = require('util');
+const execFilePromise = util.promisify(execFile); // Promisify para un código más limpio
+async function runScript(scriptName) {
+    console.time(`Tiempo de ejecución de ${scriptName}`); 
 
-const execPromise = util.promisify(exec);
+  try {
+    const { stdout, stderr } = await execFilePromise('node', [scriptName]);
+   
+    if (stdout) console.log(`${scriptName}: ${stdout}`);
+    if (stderr) console.error(`stderr en ${scriptName}: ${stderr}`);
+    
+    const end = Date.now();
+    console.timeEnd(`Tiempo de ejecución de ${scriptName}`);
+    console.log(`\n`);
+  } catch (error) {
+    throw new Error(`Error durante la ejecución de ${scriptName}: ${error.message}`);
+  }
+}
 
 async function runFiles() {
-  try {
-    // Ejecuta ingresos.js
-    const { stdout: stdout1, stderr: stderr1 } = await execPromise('node ingresos.js');
-    if (stderr1) {
-      console.error(`stderr en ingresos.js: ${stderr1}`);
+  const scripts = ['ingresos.js', 'gastos.js', 'gastosFromJSON.js'];
+  
+  for (const script of scripts) {
+    try {
+      await runScript(script);
+    } catch (error) {
+      console.error(`Error detectado: ${error.message}`);
+      break; // Detiene la ejecución si un script falla
     }
-    console.log(`stdout de ingresos.js: ${stdout1}`);
-
-    // Después de que ingresos.js termine, ejecuta gastos.js
-    const { stdout: stdout2, stderr: stderr2 } = await execPromise('node gastos.js');
-    if (stderr2) {
-      console.error(`stderr en gastos.js: ${stderr2}`);
-    }
-    console.log(`stdout de gastos.js: ${stdout2}`);
-
-     // Después de que gastos.js termine, ejecuta gastosFromJSON.js
-     const { stdout: stdout3, stderr: stderr3 } = await execPromise('node gastosFromJSON.js');
-     if (stderr3) {
-       console.error(`stderr en gastosFromJSON.js: ${stderr3}`);
-     }
-     console.log(`stdout de gastosFromJSON.js: ${stdout3}`)
-  } catch (error) {
-    console.error(`Error durante la ejecución de los archivos: ${error.message}`);
   }
 }
 

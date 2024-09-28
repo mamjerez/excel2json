@@ -80,8 +80,7 @@ function addKeysToJson() {
         const newPathApp = `${pathApp}${fileFinal}.json`;
         if (fs.existsSync(newPathApp)) fs.unlinkSync(newPathApp);
         writeDataFinal(`${fileFinal}`, jsonData);
-        console.log('Archivo JSON generado exitosamente en ' + pathApp);
-
+        console.log('Archivo JSON final generado exitosamente en ' + pathApp);
     } catch (error) {
         console.log('Error: ', error);
 
