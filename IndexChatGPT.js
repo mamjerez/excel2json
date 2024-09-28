@@ -20,7 +20,6 @@ async function runScript(scriptName) {
 
 async function runFiles() {
   const scripts = ['ingresos.js', 'gastos.js', 'gastosFromJSON.js'];
-
   
   for (const script of scripts) {
     try {
