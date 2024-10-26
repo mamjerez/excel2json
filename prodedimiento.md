@@ -11,6 +11,9 @@ C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2024/Ejecucion/NUEVA LIQUIDA
 D:\presupuestos\src\assets\data
 
 
-En la app presupuestos cambiar fecha ejecucion en environmet
+En la app presupuestos:
+  cambiar fecha ejecucion en environment
+  Canbiar cesion en package.json 
+
 COMPROBAR TOTALES ENTRE los Excel y la app
 

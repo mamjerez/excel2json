@@ -29,7 +29,7 @@ function excelToJson(filePath) {
     'Derechos Reconocidos Netos': 'DerechosReconocidosNetos',
     'Derechos Recaudados': 'DerechosReconocidos',
     'Devoluciones de ingreso': 'DerechosCancelados',
-    'Recaudación Líquida': 'DerecaudacionNeta',
+    'Recaudación Líquida': 'RecaudacionNeta',
     'Derechos Pendientes de Cobro': 'DerechosPendienteCobro',
     'Estado de Ejecución': 'DiferenciaPrevision'
   };
