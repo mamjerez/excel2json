@@ -1,5 +1,5 @@
 En config.js
-Cambiar nombres
+Cambiar nombres en lienas 2,8 y 9
 COMPROBAR EXTENSION puede ser xls o xlsx
 Comprobar año
 GRABAR
@@ -13,7 +13,7 @@ D:\presupuestos\src\assets\data
 
 En la app presupuestos:
   cambiar fecha ejecucion en environment
-  Canbiar cesion en package.json 
+  Canbiar version en package.json 
 
 COMPROBAR TOTALES ENTRE los Excel y la app
 
