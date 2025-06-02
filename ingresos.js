@@ -136,7 +136,7 @@ function excelToJson(filePath) {
   if (newEconomicosUnicos.length > 0) {
     console.log("Económicos nuevos: ", newEconomicosUnicos);
     const pathNewEconomicos = pathExcel + 'newEconomicosIngresos.json';
-    fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
+    // fs.writeFileSync(pathNewEconomicos, JSON.stringify(newEconomicosUnicos, null, 2));
   }
 
   // Imprime artículos nuevos
