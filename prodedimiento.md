@@ -1,4 +1,5 @@
-En ficheros Excel originales eliminar fila totales y columnas por abajo.
+En ficheros originales NO HAY QUE HACER NADA los totales se borran en la ejecución.
+
 
 Error detectado: Error durante la ejecución de gastosFromJSON.js: Command failed: node gastosFromJSON.js
 D:\excel2json\gastosFromJSON.js:37
@@ -7,8 +8,7 @@ D:\excel2json\gastosFromJSON.js:37
 Da este error si tiene filas sin datos al final porque crea un array con object vacios al final.
 
 
-En config.js
-Cambiar nombres en limeas 2,8 y 9
+En config.js actualizar const
 COMPROBAR EXTENSION puede ser xls o xlsx
 Comprobar año
 GRABAR
