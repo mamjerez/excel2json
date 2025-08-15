@@ -14,6 +14,7 @@ module.exports = {
     dateFile,
     pathExcel: `C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/${year}/Ejecucion/${dateFolder}/`,
     pathApp: 'D:/ocm/src/assets/data/',
+    pathOutputs: 'D:/ocm/src/assets/data/',
     pathDataJsonNecesarios: 'C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/',
 
     nameExcelIngresos: `Estado_Ejecucion_Ingresos_${year}_por_aplicaciones_a_${dateFile}.xlsx`,
