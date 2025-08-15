@@ -23,9 +23,14 @@ config.js
 ├── Fechas dinámicas (año/mes/día)
 ├── Rutas de archivos:
 │   ├── pathExcel: Origen de datos Excel
+│   │   └── 📂 C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/2025/Ejecucion/2025.08.11/
 │   ├── pathApp: Destino aplicación web
+│   │   └── 📂 D:/ocm/src/assets/data/
 │   └── pathDataJsonNecesarios: Tablas de referencia
+│       └── 📂 C:/Users/Usuario/OneDrive/Ayuntamiento/Presupuestos/Tablas/JsonNecesariosApp/
 └── Nombres de archivos Excel generados automáticamente
+    ├── 📄 Estado_Ejecucion_Ingresos_2025_por_aplicaciones_a_11-08-2025.xlsx
+    └── 📄 Estado_Ejecucion_Gastos_2025_por_aplicaciones_a_11-08-2025.xlsx
 ```
 
 ### **3. PROCESADORES DE DATOS**
