@@ -8,7 +8,7 @@ D:\excel2json\gastosFromJSON.js:37
 Da este error si tiene filas sin datos al final porque crea un array con object vacios al final.
 
 
-En config.js actualizar const
+En config.js actualizar const month, day
 COMPROBAR EXTENSION puede ser xls o xlsx
 Comprobar año
 GRABAR
