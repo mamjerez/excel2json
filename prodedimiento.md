@@ -9,6 +9,7 @@ Da este error si tiene filas sin datos al final porque crea un array con object 
 
 
 En config.js actualizar const month, day
+Los meses y días con format0 01. INCLUIR EL 0. Deber estar nombrado iguual que la caprpeta que contine los ficheros.
 COMPROBAR EXTENSION puede ser xls o xlsx
 Comprobar año
 GRABAR
